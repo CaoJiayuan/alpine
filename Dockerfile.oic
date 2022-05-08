@@ -5,8 +5,9 @@ RUN chmod +x /install_oracle.sh && /install_oracle.sh
 
 FROM alpine:3.9 
 
-ENV LD_LIBRARY_PATH=/opt/oracle/instantclient_21_3:$LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH=/opt/oracle/instantclient_21_3
 
 COPY --from=base /opt/oracle/ /opt/oracle/
 
-RUN apk add --update --no-cache libaio
+RUN apk add --update --no-cache libaio libnsl \
+    && ln -s /usr/lib/libnsl.so.2.0.0  /usr/lib/libnsl.so.1
